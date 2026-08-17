@@ -1,0 +1,55 @@
+# --- LaTeX ---------------------------------------------------------------
+*.aux
+*.log
+*.out
+*.toc
+*.bbl
+*.blg
+*.fls
+*.fdb_latexmk
+*.synctex.gz
+# latexmkrc writes into docs/build. Nothing there is committed while the report
+# is still a skeleton; add an exception for the final PDF when it is submitted.
+docs/build/
+# Slot for macros generated from measurement output. Regenerated, never committed.
+docs/generated/
+
+# --- C++ and CMake -------------------------------------------------------
+/build/
+cmake-build-*/
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+CTestTestfile.cmake
+Testing/
+compile_commands.json
+*.o
+*.obj
+*.a
+*.lib
+*.so
+*.so.*
+*.dylib
+*.dll
+*.exe
+*.pdb
+*.ilk
+*.gcda
+*.gcno
+*.profraw
+*.profdata
+
+# --- Measurement output --------------------------------------------------
+# Event logs and rendered topologies are reproducible from a run description.
+results/
+*.eventlog
+*.dot.svg
+*.dot.png
+
+# --- Editors and OS ------------------------------------------------------
+.vscode/
+.idea/
+.cache/
+*.swp
+.DS_Store
+Thumbs.db
