@@ -71,7 +71,7 @@ flowchart TD
 |---|---|
 | `include/waypoint/`, `src/` | The library. `packet` wire format, `lsdb`, `spf`, `neighbor` state table, `router` protocol core, `topology`, `sim` simulator, `analysis`, `udp` live transport. |
 | `apps/` | `waypoint-demo`, `waypoint-bench`, `waypoint-live`. |
-| `tests/` | The test runner and eight suites, 69 cases. |
+| `tests/` | The test runner and eight suites, 70 cases. |
 | `topologies/` | Sample topology files. |
 | `docs/` | The project report, in LaTeX. |
 
@@ -96,7 +96,7 @@ executables and the test binary, with no warnings under `-Wall -Wextra -Wpedanti
 ctest --test-dir build --output-on-failure
 ```
 
-Eight suites, 69 cases, covering the wire format including malformed input, sequence number
+Eight suites, 70 cases, covering the wire format including malformed input, sequence number
 comparison across the wrap, database ageing and withdrawal, Dijkstra with equal cost multipath,
 every transition of the adjacency state machine, the topology generators and file parser, the
 loop and convergence analysis, whole network convergence in the simulator, fault injection of
@@ -131,8 +131,8 @@ dot -Tpng build/dot/topology-after.dot -o after.png
 
 Four experiments: convergence against network size, convergence against the hello and dead
 intervals, flooding overhead against topology density, and transient loop count against failure
-type. Five repetitions per case, each repeated a second time and rejected unless the event log
-digest matches. Takes about six seconds.
+type. Ten repetitions per case, each repeated a second time and rejected unless the event log
+digest matches. Takes about eight seconds.
 
 ## Run live, over real sockets
 

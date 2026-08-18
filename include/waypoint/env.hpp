@@ -3,9 +3,9 @@
 // Everything below this interface is either a virtual clock with an event
 // queue, or a monotonic clock with real sockets. The protocol core sees only
 // `Env`, which is why one build of the routing logic serves both the simulator
-// and the daemon. The core links against no socket library at all, so a
-// violation of the boundary shows up as a link error rather than as a silent
-// dependency.
+// and the daemon. The boundary is structural rather than enforced by the
+// linker: the platform socket headers are included in src/udp.cpp and in no
+// other file, so a violation is one new include away from being visible.
 #pragma once
 
 #include <cstdint>
@@ -51,7 +51,7 @@ class Env {
 
   // One shot timer. There is deliberately no cancel operation: callbacks that
   // have been superseded compare a generation stamp and return. That keeps the
-  // interface to three methods and removes a whole class of dangling handle.
+  // interface small and removes a whole class of dangling handle.
   virtual void schedule(Micros delay, std::function<void()> fn) = 0;
 
   // Hands a complete datagram to the layer below. Whether it becomes a queued
