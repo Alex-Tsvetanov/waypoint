@@ -256,3 +256,24 @@ WP_TEST(sim, a_loop_episode_is_closed_when_it_ends) {
     CHECK_TRUE(l.peak_pairs > 0);
   }
 }
+
+WP_TEST(sim, cold_start_converges_on_every_ring_over_forty_seeds) {
+  // The initial convergence check behind the claim in section VI: seven rings
+  // at the default timers, forty seeds each, no run allowed to fail and the
+  // slowest start up reported exactly. The value is an equality and not a
+  // bound on purpose. A deterministic simulator that changes this number has
+  // changed its behaviour, and that is what the report is asserting.
+  Micros slowest = -1;
+  for (const std::size_t n : {4u, 6u, 8u, 12u, 16u, 24u, 32u}) {
+    for (std::uint64_t seed = 1000; seed <= 1039; ++seed) {
+      Simulator::Params p;  // defaults: hello 1 s, dead 4 s, spf delay 100 ms
+      p.seed = seed;
+      p.detect_loops = false;
+      Simulator sim(topo::ring(n), p);
+      sim.run_until(40 * kSec);
+      CHECK_TRUE(sim.converged());
+      if (sim.last_converged_at() > slowest) slowest = sim.last_converged_at();
+    }
+  }
+  CHECK_EQ(slowest, Micros{2098035});
+}
