@@ -41,7 +41,7 @@ compile_commands.json
 
 # --- Measurement output --------------------------------------------------
 # Event logs and rendered topologies are reproducible from a run.
-# Root results.csv is tracked: alex-pc 2026-08-30 exhibit numbers the report cites.
+# Root results.csv is tracked: 2026-08-30 exhibit numbers the report cites.
 results/
 *.eventlog
 *.dot.svg

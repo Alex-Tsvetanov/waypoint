@@ -145,19 +145,19 @@ dot -Tpng build/dot/topology-after.dot -o after.png
 ./build/waypoint-bench --csv results.csv
 ```
 
-On Windows (hostname `alex-pc`): `.\build\waypoint-bench --csv results.csv`.
+On Windows: `.\build\waypoint-bench --csv results.csv`.
 
 Four experiments: convergence against network size, convergence against the hello and dead
 intervals, flooding overhead against topology density, and transient loop count against failure
 type. Ten repetitions per case, each repeated a second time and rejected unless the event log
 digest matches. Warm up 40 s, observation 60 s, virtual time. The committed `results.csv` is the
-2026-08-30 measurement on `alex-pc` (Microsoft Windows 11 Pro N, OsVersion 10.0.26200; AMD
-Ryzen 5 3600 6-Core Processor, 12 logical processors; g++ 15.2.0 MinGW, CMake 4.3.2,
-Ninja 1.13.2). The CSV is the source of truth for exhibit numbers (more digits than stdout);
+2026-08-30 measurement on Microsoft Windows 11 Pro N, version 10.0.26200; AMD Ryzen 5 3600
+6-Core Processor, 12 logical processors; g++ 15.2.0 MinGW, CMake 4.3.2, Ninja 1.13.2. SIMD
+was not used. The CSV is the source of truth for exhibit numbers (more digits than stdout);
 do not substitute a cloud-VM CSV. Times are virtual-time milliseconds, not wall clock.
 OSPFv2 encoding is implemented; a live FRRouting/BIRD adjacency was not run.
-The demonstration event-log digest in the report remains `\TODO` until measured on
-the same local machine under OSPFv2.
+The demonstration event-log digest in the report remains `\TODO` until measured under
+OSPFv2 on the same platform.
 
 ## Run live, over real sockets
 
