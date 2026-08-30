@@ -74,7 +74,6 @@ flowchart TD
 | `tests/` | The test runner and eight suites, 76 cases. |
 | `topologies/` | Sample topology files. |
 | `docs/` | The project report, in LaTeX. |
-| `results/` | CSV produced by `waypoint-bench`. |
 
 ## Wire format
 
@@ -143,13 +142,14 @@ dot -Tpng build/dot/topology-after.dot -o after.png
 ## Run the measurements
 
 ```bash
-./build/waypoint-bench --csv results/results.csv
+./build/waypoint-bench --csv results.csv
 ```
 
 Four experiments: convergence against network size, convergence against the hello and dead
 intervals, flooding overhead against topology density, and transient loop count against failure
 type. Ten repetitions per case, each repeated a second time and rejected unless the event log
-digest matches. Takes about eight seconds.
+digest matches. Takes about eight seconds. Flood-byte figures in the report await a local
+remeasurement under the OSPFv2 encoding; do not treat a cloud-VM CSV as exhibit numbers.
 
 ## Run live, over real sockets
 
