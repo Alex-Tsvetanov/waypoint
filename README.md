@@ -152,8 +152,8 @@ intervals, flooding overhead against topology density, and transient loop count 
 type. Ten repetitions per case, each repeated a second time and rejected unless the event log
 digest matches. Warm up 40 s, observation 60 s, virtual time. The committed `results.csv` is the
 2026-08-30 measurement on Microsoft Windows 11 Pro N, version 10.0.26200; AMD Ryzen 5 3600
-6-Core Processor, 12 logical processors; g++ 15.2.0 MinGW, CMake 4.3.2, Ninja 1.13.2. SIMD
-was not used. The CSV is the source of truth for exhibit numbers (more digits than stdout);
+6-Core Processor, 12 logical processors; g++ 15.2.0 MinGW, CMake 4.3.2, Ninja 1.13.2.
+The CSV is the source of truth for exhibit numbers (more digits than stdout);
 do not substitute a cloud-VM CSV. Times are virtual-time milliseconds, not wall clock.
 OSPFv2 encoding is implemented; a live FRRouting/BIRD adjacency was not run.
 The demonstration event-log digest in the report remains `\TODO` until measured under
