@@ -156,6 +156,8 @@ Ryzen 5 3600 6-Core Processor, 12 logical processors; g++ 15.2.0 MinGW, CMake 4.
 Ninja 1.13.2). The CSV is the source of truth for exhibit numbers (more digits than stdout);
 do not substitute a cloud-VM CSV. Times are virtual-time milliseconds, not wall clock.
 OSPFv2 encoding is implemented; a live FRRouting/BIRD adjacency was not run.
+The demonstration event-log digest in the report remains `\TODO` until measured on
+the same local machine under OSPFv2.
 
 ## Run live, over real sockets
 
