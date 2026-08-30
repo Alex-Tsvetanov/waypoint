@@ -41,7 +41,9 @@ compile_commands.json
 
 # --- Measurement output --------------------------------------------------
 # Event logs and rendered topologies are reproducible from a run description.
-results/
+# The bench CSV is tracked: it is the measured numbers the report cites.
+results/*
+!results/results.csv
 *.eventlog
 *.dot.svg
 *.dot.png

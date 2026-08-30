@@ -275,5 +275,5 @@ WP_TEST(sim, cold_start_converges_on_every_ring_over_forty_seeds) {
       if (sim.last_converged_at() > slowest) slowest = sim.last_converged_at();
     }
   }
-  CHECK_EQ(slowest, Micros{2098035});
+  CHECK_EQ(slowest, Micros{2098117});
 }

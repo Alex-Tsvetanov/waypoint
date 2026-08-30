@@ -157,7 +157,8 @@ std::ostringstream g_csv;
 
 void csv_row(const std::string& experiment, const std::string& label,
              const Scenario& scenario, const Summary& s) {
-  g_csv << experiment << "," << label << "," << scenario.topology.nodes.size() << ","
+  // Quote the case label: failure-type names contain commas.
+  g_csv << experiment << ",\"" << label << "\"," << scenario.topology.nodes.size() << ","
         << scenario.topology.links.size() << "," << scenario.topology.diameter() << ","
         << scenario.topology.average_degree() << "," << scenario.hello / 1000 << ","
         << scenario.dead / 1000 << "," << s.valid << "," << s.rejected << ","
