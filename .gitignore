@@ -8,9 +8,9 @@
 *.fls
 *.fdb_latexmk
 *.synctex.gz
-# latexmkrc writes into docs/build. Nothing there is committed while the report
-# is still a skeleton; add an exception for the final PDF when it is submitted.
-docs/build/
+# latexmkrc writes into docs/build. Auxiliaries stay out of git; the PDF is tracked.
+docs/build/*
+!docs/build/Main.pdf
 # Slot for macros generated from measurement output. Regenerated, never committed.
 docs/generated/
 
@@ -55,7 +55,3 @@ results/*
 *.swp
 .DS_Store
 Thumbs.db
-
-# The built documentation PDF is tracked so the report can be read without a
-# LaTeX toolchain. Everything else latexmk produces stays out of git.
-!docs/build/Main.pdf
