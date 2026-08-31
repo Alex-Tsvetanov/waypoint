@@ -69,11 +69,26 @@ flowchart TD
 
 | Directory | What is in it |
 |---|---|
-| `include/waypoint/`, `src/` | The library. `packet` wire format, `lsdb`, `spf`, `neighbor` state table, `router` protocol core, `topology`, `sim` simulator, `analysis`, `udp` live transport. |
+| `include/waypoint/`, `src/` | The library. `packet` OSPFv2 wire format, `lsdb`, `spf`, `neighbor` state table, `router` protocol core, `topology`, `sim` simulator, `analysis`, `udp` live transport. |
 | `apps/` | `waypoint-demo`, `waypoint-bench`, `waypoint-live`. |
-| `tests/` | The test runner and eight suites, 70 cases. |
+| `tests/` | The test runner and eight suites, 76 cases. |
 | `topologies/` | Sample topology files. |
 | `docs/` | The project report, in LaTeX. |
+
+## Wire format
+
+Packets are encoded as **OSPFv2** (RFC 2328): 24-byte header, network byte order, null
+authentication, IP checksum over the packet (authentication field excluded), and Fletcher
+checksum over each LSA. The five packet types the daemon uses — Hello, Database Description,
+Link State Request, Link State Update and Link State Acknowledgement — map to the five OSPFv2
+types. Hello and dead intervals are carried as whole seconds on the wire. Router-LSAs describe
+point-to-point links. Fields the protocol core does not use (area, DR/BDR, DD sequence) are
+filled with RFC-conformant defaults so an external parser can read the datagram.
+
+**OSPFv2 encoding exists; a live FRRouting/BIRD adjacency was not run.** The daemon still
+carries packets over UDP. FRRouting and BIRD speak OSPF over IP protocol 89. Forming an
+adjacency with them needs a raw-IP transport that this repository does not provide. Byte-level
+tests against independently generated golden packets are in the `packet` suite.
 
 ## Build
 
@@ -96,12 +111,13 @@ executables and the test binary, with no warnings under `-Wall -Wextra -Wpedanti
 ctest --test-dir build --output-on-failure
 ```
 
-Eight suites, 70 cases, covering the wire format including malformed input, sequence number
-comparison across the wrap, database ageing and withdrawal, Dijkstra with equal cost multipath,
-every transition of the adjacency state machine, the topology generators and file parser, the
-loop and convergence analysis, whole network convergence in the simulator, fault injection of
-all three failure types, byte for byte reproducibility, and two routers forming an adjacency
-over real UDP sockets on the loopback interface.
+Eight suites, 76 cases, covering the OSPFv2 wire format including golden fixture packets,
+malformed input, checksum failures, sequence number comparison across the wrap, database
+ageing and withdrawal, Dijkstra with equal cost multipath, every transition of the adjacency
+state machine, the topology generators and file parser, the loop and convergence analysis,
+whole network convergence in the simulator, fault injection of all three failure types, byte
+for byte reproducibility, and two routers forming an adjacency over real UDP sockets on the
+loopback interface.
 
 To run one suite directly: `./build/waypoint-tests sim`.
 
@@ -129,10 +145,19 @@ dot -Tpng build/dot/topology-after.dot -o after.png
 ./build/waypoint-bench --csv results.csv
 ```
 
+On Windows: `.\build\waypoint-bench --csv results.csv`.
+
 Four experiments: convergence against network size, convergence against the hello and dead
 intervals, flooding overhead against topology density, and transient loop count against failure
 type. Ten repetitions per case, each repeated a second time and rejected unless the event log
-digest matches. Takes about eight seconds.
+digest matches. Warm up 40 s, observation 60 s, virtual time. The committed `results.csv` is the
+2026-08-30 measurement on Microsoft Windows 11 Pro N, version 10.0.26200; AMD Ryzen 5 3600
+6-Core Processor, 12 logical processors; g++ 15.2.0 MinGW, CMake 4.3.2, Ninja 1.13.2.
+The CSV is the source of truth for exhibit numbers (more digits than stdout);
+do not substitute a cloud-VM CSV. Times are virtual-time milliseconds, not wall clock.
+OSPFv2 encoding is implemented; a live FRRouting/BIRD adjacency was not run.
+The demonstration event-log digest in the report remains `\TODO` until measured under
+OSPFv2 on the same platform.
 
 ## Run live, over real sockets
 
@@ -195,12 +220,12 @@ grep -rn 'TODO' docs/chapters docs/Main.tex
 - [x] Graphviz output of the topology and the shortest path graph
 - [x] Live mode over UDP, portable across Windows and POSIX
 - [x] Measurements
-- [ ] Interoperability check against an existing daemon such as FRRouting or BIRD
+- [x] OSPFv2 wire encoding (RFC 2328) for Hello, DD, LS Request, LS Update and LS Ack
+- [ ] Live adjacency against FRRouting or BIRD (needs IP protocol 89, not only encoding)
 
-The interoperability check has not been carried out. Waypoint's packet format is its own, not
-the OSPFv2 format of RFC 2328, so an existing daemon would not parse it; making that check
-possible means implementing the OSPFv2 encoding, which is a separate piece of work. The report
-says so where it matters rather than implying otherwise.
+OSPFv2 encoding is implemented and checked against independently generated golden packets.
+A live adjacency with FRRouting or BIRD was not run: those daemons speak OSPF over IP protocol
+89, while Waypoint's live mode still uses UDP.
 
 ## License
 

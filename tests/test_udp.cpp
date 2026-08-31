@@ -38,7 +38,7 @@ WP_TEST(udp, a_datagram_survives_the_loopback_unchanged) {
   std::string error;
   CHECK_TRUE(socket.open(0, error));
 
-  const Bytes wire = encode_hello(7, Hello{100, 400, {1, 2, 3}});
+  const Bytes wire = encode_hello(7, Hello{1000, 4000, {1, 2, 3}});
   CHECK_TRUE(socket.send_to(Endpoint{"127.0.0.1", socket.local_port()}, wire, error));
 
   Bytes received;
@@ -47,7 +47,7 @@ WP_TEST(udp, a_datagram_survives_the_loopback_unchanged) {
 
   const auto decoded = decode_hello(received);
   CHECK_TRUE(decoded.has_value());
-  CHECK_EQ(decoded->dead_interval_ms, 400u);
+  CHECK_EQ(decoded->dead_interval_ms, 4000u);
 }
 
 WP_TEST(udp, receive_reports_a_timeout_rather_than_blocking) {
