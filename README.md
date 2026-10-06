@@ -156,8 +156,8 @@ digest matches. Warm up 40 s, observation 60 s, virtual time. The committed `res
 The CSV is the source of truth for exhibit numbers (more digits than stdout);
 do not substitute a cloud-VM CSV. Times are virtual-time milliseconds, not wall clock.
 OSPFv2 encoding is implemented; a live FRRouting/BIRD adjacency was not run.
-The demonstration event-log digest in the report remains `\TODO` until measured under
-OSPFv2 on the same platform.
+The demonstration event-log digest under OSPFv2 is `a0395228ae14e3ce` (seed 20260819), identical
+on a repeated run, measured 2026-10-06 on the same platform with `waypoint-demo`.
 
 ## Run live, over real sockets
 
